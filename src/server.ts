@@ -1,5 +1,6 @@
 import express from 'express';
 import indexRoutes from './routes/indexRoutes'
+import postRoutes from './routes/PostRoutes';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import morgan from 'morgan';
@@ -20,7 +21,8 @@ class Server {
 //-------------------------Configuraciones-----------------------------------------
     private configDataBase() {
         const MONGO_URI = 'mongodb://localhost/restapits';    
-        mongoose.connect(MONGO_URI || process.env.MONGODB_URI).then(db => console.log('db is Connected'));
+        mongoose.connect(MONGO_URI || process.env.MONGODB_URL)
+            .then(db => console.log('db is Connected'));
     }
 
     private midelwares(){
@@ -42,6 +44,7 @@ class Server {
     private routes() {
         //Establece las rutas
         this.app.use(indexRoutes);
+        this.app.use('/api/post',postRoutes)
     }
 
 //---------------------------------------------------------------------
